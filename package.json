@@ -1,0 +1,22 @@
+{
+  "name": "tf---mervin",
+  "version": "1.0.0",
+  "description": "TF Mervin App",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/engr-mervin/tf-mervin.git"
+  },
+  "author": "John Mervin C. Bocatcat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/engr-mervin/tf-mervin/issues"
+  },
+  "homepage": "https://github.com/engr-mervin/tf-mervin#readme",
+  "dependencies": {
+    "sass": "^1.62.1"
+  }
+}

@@ -1,0 +1,41 @@
+.navigation {
+  padding: 0 12rem;
+
+  &__list {
+    list-style: none;
+    display: flex;
+  }
+
+  &__item {
+    cursor: pointer;
+    padding: 1rem 2rem;
+    transition: all 300ms;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      background-color: $font-white;
+
+      & > .navigation__link {
+        color: $color-stormcloud;
+      }
+    }
+  }
+  &__link {
+    &:link,
+    &:visited {
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: $font-white;
+      transition: all 300ms;
+    }
+  }
+}
+
+.nav-active {
+  background-color: $font-white;
+
+  & > .navigation__link {
+    color: $color-stormcloud;
+  }
+}

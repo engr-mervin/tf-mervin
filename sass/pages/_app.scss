@@ -1,0 +1,36 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  padding: 12rem;
+  padding-bottom: 4rem;
+  padding-top: 16rem;
+  background-color: $font-white;
+  height: 100vh;
+  &__title {
+    font-size: 2.4rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 2px solid $font-default;
+    padding-bottom: 0.5rem;
+  }
+
+  &__description {
+    font-style: italic;
+    font-size: 1.4rem;
+    & span {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+  }
+}
+
+.calculator {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 5rem;
+  justify-items: center;
+  align-items: center;
+  margin-top: 3rem;
+  flex: 1 1 auto;
+}

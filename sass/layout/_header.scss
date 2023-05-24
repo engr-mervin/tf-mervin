@@ -1,0 +1,18 @@
+.header {
+  background-color: $color-stormcloud;
+  color: $font-white;
+  position: fixed;
+  width: 100vw;
+
+  &__title {
+    display: flex;
+    padding: 2rem 12rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid $font-white;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__logo {
+    height: 6rem;
+  }
+}

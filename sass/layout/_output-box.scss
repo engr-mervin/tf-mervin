@@ -1,0 +1,12 @@
+.output-box {
+  height: 100%;
+  // border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-shadow: 1rem 1rem 3rem rgba($color: #000000, $alpha: 0.03);
+  background-color: $color-beige-1;
+
+  overflow: hidden;
+  border-radius: 5px;
+}

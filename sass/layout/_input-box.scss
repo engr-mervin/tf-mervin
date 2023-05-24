@@ -1,0 +1,84 @@
+.input-box {
+  height: 100%;
+  // border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-shadow: 1rem 1rem 3rem rgba($color: #000000, $alpha: 0.03);
+  background-color: $color-beige-1;
+
+  overflow: hidden;
+  border-radius: 5px;
+
+  &__form {
+    // border: 1.5px dotted $color-columbiablue;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  &__form-box {
+    padding: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 1.5rem;
+  }
+  &__input-group {
+    display: flex;
+    align-items: center;
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__units {
+    font-size: 1.6rem;
+    margin: 0 1rem;
+    flex: 0 0 8rem;
+    font-weight: 300;
+  }
+
+  &__at {
+    margin: 0 1rem;
+    font-weight: 300;
+    flex: 0 0 4rem;
+  }
+  &__label {
+    flex: 0 0 20rem;
+    font-weight: 400;
+  }
+
+  &__input {
+    font-family: inherit;
+    flex: 1 1;
+    padding: 0.3rem;
+    text-align: end;
+    transition: all 300ms;
+    color: inherit;
+    border: none;
+    border-bottom: 2px solid transparent;
+    box-shadow: 0.5rem 0.5rem 1rem rgba(black, 0.02);
+
+    min-width: 10rem;
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid $color-stormcloud;
+    }
+  }
+
+  &__option {
+    color: inherit;
+    border: none;
+    font-family: inherit;
+    padding: 0.3rem;
+    text-align: end;
+    -webkit-padding-end: 2rem;
+    -moz-padding-end: 2rem;
+  }
+
+  &__super-group {
+    padding-left: 2rem;
+    border-left: 2px solid $color-stormcloud;
+    margin-bottom: 1.5rem;
+  }
+}

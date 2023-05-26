@@ -18,6 +18,7 @@
   &__description {
     font-style: italic;
     font-size: 1.4rem;
+    letter-spacing: 0.5px;
     & span {
       font-weight: 700;
       text-decoration: underline;
@@ -27,10 +28,9 @@
 
 .calculator {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
   column-gap: 5rem;
   justify-items: center;
-  align-items: center;
+  align-items: stretch;
   margin-top: 3rem;
-  flex: 1 1 auto;
 }

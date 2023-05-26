@@ -1,5 +1,5 @@
 .output-box {
-  height: 100%;
+  height: 55rem;
   // border: 2px solid black;
   display: flex;
   flex-direction: column;
@@ -7,6 +7,24 @@
   box-shadow: 1rem 1rem 3rem rgba($color: #000000, $alpha: 0.03);
   background-color: $color-beige-1;
 
-  overflow: hidden;
+  overflow-y: scroll;
   border-radius: 5px;
+
+  padding: 2rem 3rem;
+
+  &::-webkit-scrollbar {
+    width: 0.6rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-stormcloud;
+    border-radius: 3px;
+  }
+  &__item-list {
+    list-style: none;
+  }
+
+  &__label {
+    flex: 0 0 6rem;
+    font-weight: 400;
+  }
 }

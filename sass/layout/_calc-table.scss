@@ -1,0 +1,54 @@
+.calc-table {
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  width: 100%;
+
+  &,
+  &__header,
+  &__data {
+    border: 1px dotted black;
+    padding: 0.4rem;
+    transition: all 600ms;
+  }
+
+  &__data {
+    opacity: 1;
+  }
+  &__data:empty {
+    opacity: 0;
+  }
+
+  //Header
+
+  &__header {
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__col:nth-child(2) {
+    width: 25%;
+  }
+  &__col:nth-child(3) {
+    width: 15%;
+  }
+
+  //Column 1
+  &__col:nth-child(1) {
+    width: 60%;
+  }
+
+  &__data:nth-child(1) {
+    padding-left: 1.5rem;
+    text-align: start;
+  }
+
+  &__data:nth-child(2) {
+    padding-right: 1rem;
+    text-align: end;
+  }
+  &__data:nth-child(3) {
+    padding-left: 1rem;
+    text-align: start;
+  }
+}

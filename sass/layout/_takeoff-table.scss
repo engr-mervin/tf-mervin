@@ -1,21 +1,23 @@
-.calc-table {
+.takeoff-table {
   table-layout: fixed;
   border-collapse: collapse;
 
-  width: 100%;
+  width: 80%;
+  //Column 1
 
-  margin-bottom: 2rem;
-  &,
-  &__header,
-  &__data {
-    border: 1px dotted black;
-    padding: 0.4rem;
-    transition: all 600ms;
-    word-wrap: break-word;
+  &__col:nth-child(1) {
+    width: 55%;
+  }
+  &__col:nth-child(2) {
+    width: 25%;
+  }
+  &__col:nth-child(3) {
+    width: 20%;
   }
 
   &__data {
     opacity: 1;
+    height: 4rem;
   }
   &__data:empty {
     opacity: 0;
@@ -27,17 +29,12 @@
     text-align: center;
     text-transform: uppercase;
   }
-
-  &__col:nth-child(2) {
-    width: 20%;
-  }
-  &__col:nth-child(3) {
-    width: 16%;
-  }
-
-  //Column 1
-  &__col:nth-child(1) {
-    width: 64%;
+  &__header,
+  &__data {
+    border: 1px dotted black;
+    padding: 0.4rem;
+    transition: all 600ms;
+    word-wrap: break-word;
   }
 
   &__data:nth-child(1) {

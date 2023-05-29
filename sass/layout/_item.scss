@@ -39,7 +39,7 @@
     font-size: 1.8rem;
     text-transform: uppercase;
     transition: all 600ms;
-    flex: 0 1 20rem;
+    flex: 0 1 25rem;
   }
   &__dropdown {
     height: 2.4rem;
@@ -94,11 +94,11 @@
   //////////////////CUSTOM HEIGHTS FOR DROPDOWN
   /// AGGREGATE BASE COURSE
   &:nth-child(1) .item__title-box:not(.closed) + .item__results-box {
-    height: 70rem;
+    height: 45rem;
   }
 
   //PORTLAND CEMENT CP
   &:nth-child(2) .item__title-box:not(.closed) + .item__results-box {
-    height: 20rem;
+    height: 200rem;
   }
 }

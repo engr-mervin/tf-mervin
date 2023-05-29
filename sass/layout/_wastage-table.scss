@@ -1,0 +1,55 @@
+.wastage-table {
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  width: 18%;
+  //Column 1
+  &__header {
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__data,
+  &__header {
+    border: 1px dotted black;
+    padding: 0.4rem;
+    transition: all 600ms;
+    word-wrap: break-word;
+  }
+  &__col:nth-child(1) {
+    width: 20%;
+  }
+
+  &__data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+  }
+
+  &__swc {
+    font-family: inherit;
+    flex: 0 0 6rem;
+    padding: 0.3rem;
+    text-align: end;
+    transition: all 300ms;
+    background-color: $color-weldonblue;
+    border-radius: 2px;
+    color: $font-white;
+    border: none;
+    border-bottom: 2px solid transparent;
+    box-shadow: 0.5rem 0.5rem 1rem rgba(black, 0.02);
+
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid $color-stormcloud;
+    }
+  }
+
+  &__percent {
+    font-size: 1.6rem;
+    margin-left: 0.5rem;
+    flex: 0 0 1.5rem;
+    font-weight: 300;
+  }
+}

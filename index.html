@@ -20,7 +20,8 @@
     />
 
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/index.js" defer></script>
+    <script type="module" src="js/controller.js"></script>
+    <script src="js/eventhandlers.js"></script>
   </head>
 
   <body>
@@ -156,6 +157,7 @@
                   <option class="input-box__option" value="AA">Class AA</option>
                   <option class="input-box__option" selected="selected" value="A">Class A</option>
                   <option class="input-box__option" value="B">Class B</option>
+                  <option class="input-box__option" value="C">Class C</option>
                 </select>
                 <span class="input-box__units">Mixture</span>
               </div>
@@ -181,7 +183,7 @@
                 <span class="input-box__at">m @</span>
                 <input
                   onkeydown="handleEnter(event)"
-                  placeholder="0.75"
+                  placeholder="0.30"
                   type="number"
                   step="0.01"
                   class="input-box__input auto-round"
@@ -190,7 +192,7 @@
                   data-round="2"
                   max="3.00"
                   min="0.10"
-                  value="0.75"
+                  value="0.30"
                 />
                 <span class="input-box__units">m spacing</span>
               </div>
@@ -213,7 +215,7 @@
                 <span class="input-box__at">m @</span>
                 <input
                   onkeydown="handleEnter(event)"
-                  placeholder="0.30"
+                  placeholder="0.75"
                   type="number"
                   step="0.01"
                   class="input-box__input auto-round"
@@ -222,7 +224,7 @@
                   data-round="2"
                   max="3.00"
                   min="0.10"
-                  value="0.30"
+                  value="0.75"
                 />
                 <span class="input-box__units">m spacing</span>
               </div>
@@ -382,7 +384,8 @@
               </div>
               <div class="item__results-box">
                 <div class="item__calculations-box">
-                  <h3 class="heading-3">COMPUTATIONS</h3>
+                  <h3 class="heading-3">BASE COURSE COMPUTATIONS</h3>
+
                   <table class="calc-table">
                     <colgroup class="calc-table__colgroup" span="3">
                       <col class="calc-table__col" />
@@ -440,82 +443,332 @@
                       <td class="calc-table__data calc-table__data-units">cu.m.</td>
                     </tr>
                     <tr class="calc-table__row">
-                      <td class="calc-table__data calc-table__data-desc">Adjusted Volume:</td>
-                      <td class="calc-table__data calc-table__data-qty" id="abc-adj-volume"></td>
+                      <td class="calc-table__data calc-table__data-desc">Volume Considering Shrinkage:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="abc-adjvolume"></td>
                       <td class="calc-table__data calc-table__data-units">cu.m.</td>
                     </tr>
                   </table>
-                </div>
-                <div class="item__takeoff-box">
-                  <h3 class="takeoff__header">S,W,C</h3>
-                  <h3 class="takeoff__header">Description</h3>
-                  <h3 class="takeoff__header">Quantity</h3>
-                  <h3 class="takeoff__header">Units</h3>
-
-                  <div>
-                    <input
-                      onkeydown="handleEnter(event)"
-                      placeholder="15"
-                      type="number"
-                      step="1"
-                      class="takeoff__swc auto-round"
-                      id="swc-abc"
-                      data-sequence="1"
-                      data-round="0"
-                      max="50"
-                      min="0"
-                      value="15"
-                    />
-                    <span class="takeoff__percent">%</span>
+                  <div class="output-box__tables-box">
+                    <table class="wastage-table">
+                      <colgroup class="wastage-table__colgroup">
+                        <col class="wastage-table__col" />
+                      </colgroup>
+                      <tr class="wastage-table__row">
+                        <th class="wastage-table__header">Wastage</th>
+                      </tr>
+                      <tr class="wastage-table__row">
+                        <td class="wastage-table__data">
+                          <input
+                            onkeydown="handleEnter(event)"
+                            placeholder="0"
+                            type="number"
+                            step="1"
+                            class="wastage-table__swc auto-round"
+                            data-sequence="1"
+                            data-round="0"
+                            max="50"
+                            min="0"
+                            value="0"
+                            data-for-el="abc-mat-abc"
+                          />
+                          <span class="wastage-table__percent">%</span>
+                        </td>
+                      </tr>
+                    </table>
+                    <table class="takeoff-table">
+                      <colgroup class="takeoff-table__colgroup">
+                        <col class="takeoff-table__col" />
+                        <col class="takeoff-table__col" />
+                        <col class="takeoff-table__col" />
+                      </colgroup>
+                      <tr class="takeoff-table__row">
+                        <th class="takeoff-table__header">Description</th>
+                        <th class="takeoff-table__header">Quantity</th>
+                        <th class="takeoff-table__header">Units</th>
+                      </tr>
+                      <tr class="takeoff-table__row">
+                        <td class="takeoff-table__data">Aggregate Base Course</td>
+                        <td class="takeoff-table__data" id="abc-mat-abc"></td>
+                        <td class="takeoff-table__data">cu.m.</td>
+                      </tr>
+                    </table>
                   </div>
-                  <div class="takeoff__desc">Aggregate Base Course</div>
-                  <div class="takeoff__qty">8888.88</div>
-                  <div class="takeoff__units">cu.m.</div>
-                  <!-- <label class="output-box__label" for="swc-abc"
-                      >S, W, C:</label
-                    > -->
-                  <!-- <input
-                      onkeydown="handleEnter(event)"
-                      placeholder="15"
-                      type="number"
-                      step="1"
-                      class="output-box__input number"
-                      id="swc-abc"
-                      data-sequence="1"
-                      data-round="0"
-                      max="50"
-                      min="0"
-                      value="15"
-                    />
-                    <span class="output-box__units">%</span> -->
                 </div>
+                <div class="item__takeoff-box"></div>
               </div>
             </li>
-            <!-- <li class="output-box__item">
-              <div class="output-box__item-title-box">
-                <div class="output-box__item-title">
-                  Portland Cement Concrete Pavement
-                </div>
-                <div class="output-box__item-dropdown">
-                  <ion-icon
-                    class="output-box__item-dropdown-icon down"
-                    name="chevron-down-outline"
-                  ></ion-icon>
-                  <ion-icon
-                    class="output-box__item-dropdown-icon up"
-                    name="chevron-up-outline"
-                  ></ion-icon>
+            <li class="item">
+              <div class="item__title-box">
+                <div class="item__title">Portland Cement Concrete Pavement</div>
+                <div class="item__dropdown">
+                  <ion-icon class="item__dropdown-icon down" name="chevron-down-outline"></ion-icon>
+                  <ion-icon class="item__dropdown-icon up" name="chevron-up-outline"></ion-icon>
                 </div>
               </div>
-              <div class="output-box__item-calculations-box">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum
-                dolorem vero explicabo excepturi, culpa ullam eligendi
-                architecto in et? Deleniti porro sit eveniet dicta veritatis!
-                Dignissimos illo corporis omnis vero sapiente commodi harum
-                dicta nobis numquam, impedit pariatur eligendi enim mollitia
-                explicabo quis, similique magnam! Nisi sunt qui quasi fuga.
+              <div class="item__results-box">
+                <div class="item__calculations-box">
+                  <h3 class="heading-3">Concrete Computations</h3>
+
+                  <table class="calc-table">
+                    <colgroup class="calc-table__colgroup" span="3">
+                      <col class="calc-table__col" />
+                      <col class="calc-table__col" />
+                      <col class="calc-table__col" />
+                    </colgroup>
+                    <tr>
+                      <th class="calc-table__header">Description</th>
+                      <th class="calc-table__header">Quantity</th>
+                      <th class="calc-table__header">Units</th>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Length:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="pccp-length"></td>
+                      <td class="calc-table__data calc-table__data-units">meters</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Width:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="pccp-width"></td>
+                      <td class="calc-table__data calc-table__data-units">meters</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Thickness:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="pccp-thick"></td>
+                      <td class="calc-table__data calc-table__data-units">meters</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Area (Top):</td>
+                      <td class="calc-table__data calc-table__data-qty" id="pccp-area-t"></td>
+                      <td class="calc-table__data calc-table__data-units">sq.m.</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Output per day:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="pccp-output"></td>
+                      <td class="calc-table__data calc-table__data-units">meters</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Volume:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="pccp-volume"></td>
+                      <td class="calc-table__data calc-table__data-units">cu.m.</td>
+                    </tr>
+                  </table>
+                  <div class="output-box__tables-box">
+                    <table class="wastage-table">
+                      <colgroup class="wastage-table__colgroup">
+                        <col class="wastage-table__col" />
+                      </colgroup>
+                      <tr class="wastage-table__row">
+                        <th class="wastage-table__header">Wastage</th>
+                      </tr>
+                      <tr class="wastage-table__row">
+                        <td class="wastage-table__data">
+                          <input
+                            onkeydown="handleEnter(event)"
+                            placeholder="3"
+                            type="number"
+                            step="1"
+                            class="wastage-table__swc auto-round"
+                            data-sequence="1"
+                            data-round="0"
+                            max="50"
+                            min="0"
+                            value="3"
+                            data-for-el="pccp-mat-pc"
+                          />
+                          <span class="wastage-table__percent">%</span>
+                        </td>
+                      </tr>
+                      <tr class="wastage-table__row">
+                        <td class="wastage-table__data">
+                          <input
+                            onkeydown="handleEnter(event)"
+                            placeholder="15"
+                            type="number"
+                            step="1"
+                            class="wastage-table__swc auto-round"
+                            data-sequence="1"
+                            data-round="0"
+                            max="50"
+                            min="0"
+                            value="15"
+                            data-for-el="pccp-mat-sand"
+                          />
+                          <span class="wastage-table__percent">%</span>
+                        </td>
+                      </tr>
+                      <tr class="wastage-table__row">
+                        <td class="wastage-table__data">
+                          <input
+                            onkeydown="handleEnter(event)"
+                            placeholder="10"
+                            type="number"
+                            step="1"
+                            class="wastage-table__swc auto-round"
+                            data-sequence="1"
+                            data-round="0"
+                            max="50"
+                            min="0"
+                            value="10"
+                            data-for-el="pccp-mat-gravel"
+                          />
+                          <span class="wastage-table__percent">%</span>
+                        </td>
+                      </tr>
+                    </table>
+                    <table class="takeoff-table">
+                      <colgroup class="takeoff-table__colgroup">
+                        <col class="takeoff-table__col" />
+                        <col class="takeoff-table__col" />
+                        <col class="takeoff-table__col" />
+                      </colgroup>
+                      <tr class="takeoff-table__row">
+                        <th class="takeoff-table__header">Description</th>
+                        <th class="takeoff-table__header">Quantity</th>
+                        <th class="takeoff-table__header">Units</th>
+                      </tr>
+                      <tr class="takeoff-table__row">
+                        <td class="takeoff-table__data">Portland Cement - Type 1</td>
+                        <td class="takeoff-table__data" id="pccp-mat-pc"></td>
+                        <td class="takeoff-table__data">bags</td>
+                      </tr>
+                      <tr class="takeoff-table__row">
+                        <td class="takeoff-table__data">Washed Sand</td>
+                        <td class="takeoff-table__data" id="pccp-mat-sand"></td>
+                        <td class="takeoff-table__data">cu.m.</td>
+                      </tr>
+                      <tr class="takeoff-table__row">
+                        <td class="takeoff-table__data">Crushed Gravel</td>
+                        <td class="takeoff-table__data" id="pccp-mat-gravel"></td>
+                        <td class="takeoff-table__data">cu.m.</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <h3 class="heading-3">Steel Computations</h3>
+
+                  <table class="calc-table">
+                    <colgroup class="calc-table__colgroup" span="3">
+                      <col class="calc-table__col" />
+                      <col class="calc-table__col" />
+                      <col class="calc-table__col" />
+                    </colgroup>
+                    <tr>
+                      <th class="calc-table__header">Description</th>
+                      <th class="calc-table__header">Quantity</th>
+                      <th class="calc-table__header">Units</th>
+                    </tr>
+
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">No. of Cold Joints:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="steel-num-of-CJ"></td>
+                      <td class="calc-table__data calc-table__data-units">joints</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">No. of Dowels per Cold Joint:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="steel-num-of-dowels-per-CJ"></td>
+                      <td class="calc-table__data calc-table__data-units">dowels</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Total No. of Dowels for Cold Joint:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="steel-total-num-of-dowels-CJ"></td>
+                      <td class="calc-table__data calc-table__data-units">dowels</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">No. of Dowels per Bar:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="steel-num-of-dowels-per-bar-CJ"></td>
+                      <td class="calc-table__data calc-table__data-units">dowels</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Bars for All Cold Joint Dowels:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="steel-bars-for-CJ"></td>
+                      <td class="calc-table__data calc-table__data-units">bars</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Total No. of Dowels for Lane Interface:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="steel-total-num-of-dowels-LI"></td>
+                      <td class="calc-table__data calc-table__data-units">dowels</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">No. of Dowels per Bar:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="steel-num-of-dowels-per-bar-LI"></td>
+                      <td class="calc-table__data calc-table__data-units">dowels</td>
+                    </tr>
+                    <tr class="calc-table__row">
+                      <td class="calc-table__data calc-table__data-desc">Bars for Lane Interface:</td>
+                      <td class="calc-table__data calc-table__data-qty" id="steel-bars-for-LI"></td>
+                      <td class="calc-table__data calc-table__data-units">bars</td>
+                    </tr>
+                  </table>
+                  <div class="output-box__tables-box">
+                    <table class="wastage-table">
+                      <colgroup class="wastage-table__colgroup">
+                        <col class="wastage-table__col" />
+                      </colgroup>
+                      <tr class="wastage-table__row">
+                        <th class="wastage-table__header">Wastage</th>
+                      </tr>
+                      <tr class="wastage-table__row">
+                        <td class="wastage-table__data">
+                          <input
+                            onkeydown="handleEnter(event)"
+                            placeholder="3"
+                            type="number"
+                            step="1"
+                            class="wastage-table__swc auto-round"
+                            data-sequence="1"
+                            data-round="0"
+                            max="50"
+                            min="0"
+                            value="3"
+                            data-for-el="steel-mat-CJ"
+                          />
+                          <span class="wastage-table__percent">%</span>
+                        </td>
+                      </tr>
+                      <tr class="wastage-table__row">
+                        <td class="wastage-table__data">
+                          <input
+                            onkeydown="handleEnter(event)"
+                            placeholder="3"
+                            type="number"
+                            step="1"
+                            class="wastage-table__swc auto-round"
+                            data-sequence="1"
+                            data-round="0"
+                            max="50"
+                            min="0"
+                            value="3"
+                            data-for-el="steel-mat-LI"
+                          />
+                          <span class="wastage-table__percent">%</span>
+                        </td>
+                      </tr>
+                    </table>
+                    <table class="takeoff-table">
+                      <colgroup class="takeoff-table__colgroup">
+                        <col class="takeoff-table__col" />
+                        <col class="takeoff-table__col" />
+                        <col class="takeoff-table__col" />
+                      </colgroup>
+                      <tr class="takeoff-table__row">
+                        <th class="takeoff-table__header">Description</th>
+                        <th class="takeoff-table__header">Quantity</th>
+                        <th class="takeoff-table__header">Units</th>
+                      </tr>
+                      <tr class="takeoff-table__row">
+                        <td class="takeoff-table__data">6.0 m RSB for Dowels (Joints)</td>
+                        <td class="takeoff-table__data" id="steel-mat-CJ"></td>
+                        <td class="takeoff-table__data">pcs.</td>
+                      </tr>
+                      <tr class="takeoff-table__row">
+                        <td class="takeoff-table__data">6.0 m RSB for Dowels (Interface)</td>
+                        <td class="takeoff-table__data" id="steel-mat-LI"></td>
+                        <td class="takeoff-table__data">pcs.</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="item__takeoff-box"></div>
               </div>
-            </li> -->
+            </li>
           </ul>
         </div>
       </div>

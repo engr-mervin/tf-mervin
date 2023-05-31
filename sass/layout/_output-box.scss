@@ -1,5 +1,5 @@
 .output-box {
-  height: 55rem;
+  height: calc(100vh - 30rem);
   // border: 2px solid black;
   display: flex;
   flex-direction: column;

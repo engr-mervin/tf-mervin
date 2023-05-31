@@ -118,7 +118,6 @@ body {
   flex-direction: column;
   width: 100%;
   box-shadow: 1rem 1rem 3rem rgba(0, 0, 0, 0.03);
-  background-color: #f3f8e6;
   border-radius: 5px;
 }
 .input-box__form {
@@ -128,10 +127,11 @@ body {
 }
 .input-box__form-box {
   overflow-y: scroll;
-  height: 50rem;
+  height: calc(100vh - 35rem);
   padding: 3rem;
   padding-top: 2rem;
   padding-bottom: 1.5rem;
+  background-color: #f3f8e6;
 }
 .input-box__form-box::-webkit-scrollbar {
   width: 0.6rem;
@@ -278,7 +278,7 @@ body {
 }
 
 .output-box {
-  height: 55rem;
+  height: calc(100vh - 30rem);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -434,7 +434,7 @@ body {
   grid-template-columns: 1.4fr 1fr;
   column-gap: 5rem;
   justify-items: center;
-  align-items: stretch;
+  align-items: start;
   margin-top: 3rem;
 }
 

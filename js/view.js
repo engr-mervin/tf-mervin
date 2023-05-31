@@ -7,16 +7,21 @@ import * as util from "./utilities.js";
 import * as INPUT from "./constants/inputs.js"; //GET INPUTS
 import * as OUTPUT from "./constants/outputs.js"; //DISPLAY OUTPUTS
 
-export const dispNavButtons = function (navButton, navButtons) {
+export const toggleNavButton = function (navButton, navButtons) {
+  console.log(navButtons);
   navButtons.forEach((el) => {
+    console.log(el);
     if (el.hasAttribute("activated")) {
       el.removeAttribute("activated");
       el.classList.remove("nav-active");
+      console.log(document.getElementById(el.dataset.for));
+      document.getElementById(el.dataset.for).classList.remove("tab__active");
     }
   });
 
   navButton.setAttribute("activated", "");
   navButton.classList.add("nav-active");
+  document.getElementById(navButton.dataset.for).classList.add("tab__active");
 };
 
 export const dropDownClick = function (el) {
@@ -116,9 +121,12 @@ export const getWastage = function () {
   //STEEL
   allSWC[OUTPUT.STL_MAT_CJ] = getSWC(OUTPUT.STL_MAT_CJ);
   allSWC[OUTPUT.STL_MAT_LI] = getSWC(OUTPUT.STL_MAT_LI);
-  allSWC[OUTPUT.STL_MAT_GI] = getSWC(OUTPUT.STL_MAT_GI);
 
-  console.log(allSWC);
+  //FORMWORKS
+
+  allSWC[OUTPUT.FW_MAT_LUMBER] = getSWC(OUTPUT.FW_MAT_LUMBER);
+  allSWC[OUTPUT.FW_MAT_PB] = getSWC(OUTPUT.FW_MAT_PB);
+  allSWC[OUTPUT.FW_MAT_BAGS] = getSWC(OUTPUT.FW_MAT_BAGS);
   return allSWC;
 };
 
@@ -129,7 +137,7 @@ export const dispResults = function (res) {
     if (getEl(key) === null) return;
 
     //LOGIC WHEN CHANGED
-    if (val !== getRes(key) && !isNaN(getRes(key))) {
+    if (val !== getRes(key) && !isNaN(getRes(key)) && getEl(key).textContent !== "") {
       getEl(key).style.fontWeight = 700;
     } else {
       getEl(key).style.fontWeight = 400;
@@ -144,13 +152,82 @@ export const dispTakeoff = function (takeoff) {
     const [key, val] = entry;
 
     //LOGIC WHEN CHANGED
-    if (val !== getRes(key) && !isNaN(getRes(key))) {
-      console.log(val, getRes(key));
-      console.log(key, "changed");
+    if (val !== getRes(key) && !isNaN(getRes(key)) && getEl(key).textContent !== "") {
       getEl(key).style.fontWeight = 700;
     } else {
       getEl(key).style.fontWeight = 400;
     }
     set(key, val);
+  });
+};
+
+export const validateInputs = function () {
+  const elements = Object.values(getAllInputsArray());
+
+  const isBlank = (el) => el.value === "";
+  return !elements.some(isBlank);
+};
+
+const addEl = function (obj, str) {
+  obj[str] = getEl(str);
+  return obj;
+};
+
+const getAllInputsArray = function () {
+  const inputs = document.querySelectorAll(".input-item");
+  return inputs;
+};
+
+const getAllOutputsArray = function () {
+  const outputs = document.querySelectorAll(".output-item");
+  return outputs;
+};
+
+export const clearInputs = function () {
+  console.log("cleared!");
+  const elements = Object.values(getAllInputsArray());
+
+  elements.forEach((el) => {
+    el.value = "";
+  });
+};
+
+export const openModal = function (modal) {
+  document.getElementById(modal).classList.add("modal-opened");
+};
+
+export const closeModal = function (modal) {
+  document.getElementById(modal).classList.remove("modal-opened");
+};
+
+export const showMessage = function (message) {
+  document.getElementById("message-text").textContent = message;
+  openModal("message-box");
+};
+
+export const populateInputs = function () {
+  console.log("populated!");
+  const elements = Object.values(getAllInputsArray());
+  elements.forEach((el) => {
+    if (el.nodeName === "SELECT") {
+      [...el.children].forEach((child) => {
+        console.log(child);
+        if (child.hasAttribute("default")) el.value = child.value;
+      });
+    } else {
+      el.value = el.placeholder;
+    }
+  });
+};
+
+export const clearOutputs = function () {
+  console.log("Cleared outputs!");
+  const outputs = getAllOutputsArray();
+
+  console.log(outputs);
+
+  outputs.forEach((el) => {
+    el.textContent = "";
+    el.dataset.value = 0;
   });
 };

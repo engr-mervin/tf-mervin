@@ -21,9 +21,14 @@ export const computeIntermediate = function (inp) {
     inters[INTER.MIXTURE] = 9.0;
   }
 
-  inters[INTER.PCCP_AREA_CROSS] = inp[INPUT.LANE_WIDTH] * inp[INPUT.PCCP_THICKNESS];
+  inters[INTER.AREA_CROSS] = inp[INPUT.LANE_WIDTH] * inp[INPUT.PCCP_THICKNESS];
 
-  inters[INTER.OUTPUT_METER_PER_DAY] = util.roundNear(inp[INPUT.OUTPUT_PER_DAY] / inters[INTER.PCCP_AREA_CROSS], 1.5);
+  inters[INTER.OUTPUT_METER_PER_DAY] = util.roundNear(inp[INPUT.OUTPUT_PER_DAY] / inters[INTER.AREA_CROSS], 1.5);
+
+  inters[INTER.NUM_OF_JOINTS] =
+    util.roundAt(inp[INPUT.LENGTH] / inters[INTER.OUTPUT_METER_PER_DAY], 1.5 / inters[INTER.OUTPUT_METER_PER_DAY]) * inp[INPUT.NUMBER_OF_LANES];
+
+  inters[INTER.VOLUME] = inp[INPUT.LANE_WIDTH] * inp[INPUT.NUMBER_OF_LANES] * inp[INPUT.LENGTH] * inp[INPUT.PCCP_THICKNESS];
 
   return inters;
 };
@@ -56,16 +61,14 @@ const computePCCP = function (inp, inters) {
   results[OUTPUT.PCCP_AREA_TOP] = results[OUTPUT.PCCP_LENGTH] * results[OUTPUT.PCCP_WIDTH];
 
   results[OUTPUT.PCCP_OUTPUT] = inters[INTER.OUTPUT_METER_PER_DAY];
-  console.log(results[OUTPUT.PCCP_OUTPUT]);
-  results[OUTPUT.PCCP_VOLUME] = results[OUTPUT.PCCP_AREA_TOP] * inp[INPUT.PCCP_THICKNESS];
+  results[OUTPUT.PCCP_VOLUME] = inters[INTER.VOLUME];
   return results;
 };
 
 const computeSteel = function (inp, inters) {
   const results = {};
 
-  results[OUTPUT.STL_NUM_OF_CJ] =
-    util.roundAt(inp[INPUT.LENGTH] / inters[INTER.OUTPUT_METER_PER_DAY], 1.5 / inters[INTER.OUTPUT_METER_PER_DAY]) * inp[INPUT.NUMBER_OF_SIDES];
+  results[OUTPUT.STL_NUM_OF_CJ] = inters[INTER.NUM_OF_JOINTS];
 
   results[OUTPUT.STL_NUM_OF_DOWELS_PER_CJ] = util.roundup((inp[INPUT.LANE_WIDTH] - 0.1) / inp[INPUT.DOWELS_CJ_S], 0);
 
@@ -75,19 +78,57 @@ const computeSteel = function (inp, inters) {
 
   results[OUTPUT.STL_BARS_FOR_CJ] = util.roundup(results[OUTPUT.STL_TOTAL_NUM_OF_DOWELS_CJ] / results[OUTPUT.STL_NUM_OF_DOWELS_PER_BAR_CJ], 0);
 
-  results[OUTPUT.STL_TOTAL_NUM_OF_DOWELS_LI] = util.roundup((inp[INPUT.LENGTH] - 0.1) / inp[INPUT.DOWELS_LI_S], 0);
-
   results[OUTPUT.STL_NUM_OF_DOWELS_PER_BAR_LI] = util.rounddown(6 / inp[INPUT.DOWELS_LI], 0);
+  if (inp[INPUT.NUMBER_OF_LANES] !== 2) {
+    results[OUTPUT.STL_TOTAL_NUM_OF_DOWELS_LI] = 0;
 
-  results[OUTPUT.STL_BARS_FOR_LI] = util.roundup(results[OUTPUT.STL_TOTAL_NUM_OF_DOWELS_LI] / results[OUTPUT.STL_NUM_OF_DOWELS_PER_BAR_LI], 0);
+    results[OUTPUT.STL_BARS_FOR_LI] = 0;
+  } else {
+    results[OUTPUT.STL_TOTAL_NUM_OF_DOWELS_LI] = util.roundup((inp[INPUT.LENGTH] - 0.1) / inp[INPUT.DOWELS_LI_S], 0);
+
+    results[OUTPUT.STL_BARS_FOR_LI] = util.roundup(results[OUTPUT.STL_TOTAL_NUM_OF_DOWELS_LI] / results[OUTPUT.STL_NUM_OF_DOWELS_PER_BAR_LI], 0);
+  }
 
   return results;
+};
+
+const computeFormworks = function (inp, inters) {
+  const result = {};
+
+  result[OUTPUT.FW_ESTIMATED_DAYS] = util.roundup((inp[INPUT.LENGTH] * inp[INPUT.NUMBER_OF_LANES]) / inters[INTER.OUTPUT_METER_PER_DAY], 0);
+
+  const days = result[OUTPUT.FW_ESTIMATED_DAYS] >= 3 ? 3 : result[OUTPUT.FW_ESTIMATED_DAYS];
+
+  result[OUTPUT.FW_NUM_OF_PB] = util.roundup((days * inters[INTER.OUTPUT_METER_PER_DAY] * 2) / inp[INPUT.PINBOLTS_S], 0);
+  result[OUTPUT.FW_TOTAL_LENGTH_PB] = result[OUTPUT.FW_NUM_OF_PB] * inp[INPUT.PINBOLTS];
+
+  result[OUTPUT.FW_LENGTH_FIRST] = 2 * inp[INPUT.LENGTH] + inters[INTER.NUM_OF_JOINTS] * inp[INPUT.LANE_WIDTH];
+
+  if (inp[INPUT.NUMBER_OF_LANES] === 1) result[OUTPUT.FW_LENGTH_SECOND] = 0;
+  else {
+    result[OUTPUT.FW_LENGTH_SECOND] = 1 * inp[INPUT.LENGTH] + inters[INTER.NUM_OF_JOINTS] * inp[INPUT.LANE_WIDTH];
+  }
+
+  result[OUTPUT.FW_TOTAL_LENGTH] = result[OUTPUT.FW_LENGTH_FIRST] + result[OUTPUT.FW_LENGTH_SECOND];
+
+  result[OUTPUT.FW_USE_PER_LUMBER] = inp[INPUT.LUMBER_USE];
+
+  result[OUTPUT.FW_TOTAL_BAGS] = util.roundup(inters[INTER.VOLUME] * 1.5 * 36);
+
+  result[OUTPUT.FW_USE_PER_BAG] = inp[INPUT.BAG_USE];
+  return result;
 };
 
 export const compute = function (inp, inters) {
   let results = {};
 
-  results = { ...results, ...computeBaseCourse(inp, inters), ...computePCCP(inp, inters), ...computeSteel(inp, inters) };
+  results = {
+    ...results,
+    ...computeBaseCourse(inp, inters),
+    ...computePCCP(inp, inters),
+    ...computeSteel(inp, inters),
+    ...computeFormworks(inp, inters),
+  };
 
   return results;
 };
@@ -120,6 +161,33 @@ const takeOffSteel = function (res, swc, inters) {
   return results;
 };
 
+const takeOffFormworks = function (res, swc, inters) {
+  const results = {};
+
+  results[OUTPUT.FW_MAT_LUMBER] = util.roundup(
+    (res[OUTPUT.FW_TOTAL_LENGTH] * (1 + swc[OUTPUT.FW_MAT_LUMBER] / 100)) / 0.3048 / 12 / res[OUTPUT.FW_USE_PER_LUMBER],
+    0
+  );
+
+  results[OUTPUT.FW_MAT_PB] = util.roundup((res[OUTPUT.FW_TOTAL_LENGTH_PB] * (1 + swc[OUTPUT.FW_MAT_PB] / 100)) / 6, 0);
+  console.log(inters[INTER.VOLUME]);
+
+  const pcBags = inters[INTER.VOLUME] * 9 * (res[OUTPUT.FW_USE_PER_BAG] - 1);
+
+  console.log(pcBags);
+  results[OUTPUT.FW_MAT_BAGS] = util.roundup(
+    ((res[OUTPUT.FW_TOTAL_BAGS] - pcBags) * (1 + swc[OUTPUT.FW_MAT_BAGS] / 100)) / res[OUTPUT.FW_USE_PER_BAG],
+    0
+  );
+
+  return results;
+};
+
 export const takeoff = function (res, swc, inters) {
-  return { ...takeOffBaseCourse(res, swc, inters), ...takeOffPCCP(res, swc, inters), ...takeOffSteel(res, swc) };
+  return {
+    ...takeOffBaseCourse(res, swc, inters),
+    ...takeOffPCCP(res, swc, inters),
+    ...takeOffSteel(res, swc, inters),
+    ...takeOffFormworks(res, swc, inters),
+  };
 };

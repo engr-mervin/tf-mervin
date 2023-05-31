@@ -1,6 +1,7 @@
 .input-box {
   // border: 2px solid black;
   display: flex;
+  position: relative;
   flex-direction: column;
   width: 100%;
   box-shadow: 1rem 1rem 3rem rgba($color: #000000, $alpha: 0.03);
@@ -63,6 +64,7 @@
   &__input {
     font-family: inherit;
     flex: 1 1;
+    font-weight: 400;
     padding: 0.3rem;
     text-align: end;
     transition: all 300ms;
@@ -75,6 +77,12 @@
     &:focus {
       outline: none;
       border-bottom: 2px solid $color-stormcloud;
+    }
+
+    &::placeholder {
+      color: #333;
+      opacity: 50%;
+      font-weight: 300;
     }
   }
 
@@ -110,5 +118,24 @@
     padding-left: 2rem;
     border-left: 2px solid $color-stormcloud;
     margin-bottom: 1.5rem;
+  }
+
+  &__populate-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateY(-115%);
+    padding: 0.5rem 0.5rem;
+    color: $font-white;
+    background-color: $color-stormcloud;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+
+    transition: all 300ms;
+    &:hover {
+      transform: translateY(-120%) scale(1.05);
+    }
   }
 }

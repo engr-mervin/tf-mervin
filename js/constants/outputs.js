@@ -44,3 +44,19 @@ export const STL_BARS_FOR_LI = "steel-bars-for-LI";
 //TAKEOFF STEEL
 export const STL_MAT_CJ = "steel-mat-CJ";
 export const STL_MAT_LI = "steel-mat-LI";
+
+//COMPUTATIONS FORMWORKS
+export const FW_ESTIMATED_DAYS = "fw-estimated-days";
+export const FW_NUM_OF_PB = "fw-num-of-PB";
+export const FW_TOTAL_LENGTH_PB = "fw-total-length-of-PB";
+export const FW_LENGTH_FIRST = "fw-length-first";
+export const FW_LENGTH_SECOND = "fw-length-second";
+export const FW_TOTAL_LENGTH = "fw-total-length";
+export const FW_USE_PER_LUMBER = "fw-use-per-lumber";
+export const FW_TOTAL_BAGS = "fw-total-bags";
+export const FW_USE_PER_BAG = "fw-use-per-bag";
+
+//TAKEOFF FORMWORKS
+export const FW_MAT_LUMBER = "fw-mat-lumber";
+export const FW_MAT_PB = "fw-mat-PB";
+export const FW_MAT_BAGS = "fw-mat-bags";

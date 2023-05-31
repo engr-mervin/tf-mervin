@@ -1,0 +1,23 @@
+.tab {
+  display: none;
+
+  &__active {
+    &.tab-home,
+    &.tab-about,
+    &.tab-masonry {
+      display: block;
+      height: 100vh;
+      overflow-y: hidden;
+    }
+
+    &.tab-road {
+      display: flex;
+      flex-direction: column;
+      padding: 12rem;
+      padding-bottom: 4rem;
+      padding-top: 16rem;
+      background-color: $font-white;
+      height: 100vh;
+    }
+  }
+}

@@ -15,7 +15,7 @@ const subsNavButtons = function () {
   navButtons.forEach((el) => {
     el.addEventListener("click", function (e) {
       e.preventDefault();
-      view.dispNavButtons(el, navButtons);
+      view.toggleNavButton(el, navButtons);
     });
   });
 };
@@ -27,6 +27,9 @@ const subsInputNumbers = function () {
   inputNumbers.forEach((el) => {
     el.addEventListener("focusout", function (e) {
       e.preventDefault();
+      console.log("out", el.value);
+      if (el.value === "") return;
+      console.log("out", el.value);
       el.value = util.clampAndConvertToString(Number(el.value), Number(el.min), Number(el.max), Number(el.dataset.round));
     });
   });
@@ -48,6 +51,13 @@ const subsCompute = function () {
   document.getElementById(CONFIG.COMPUTE_BTN).addEventListener("click", function (e) {
     e.preventDefault();
 
+    //VALIDATE ALL FIELDS
+    if (view.validateInputs() === false) {
+      console.log("invalidated");
+      view.showMessage("Please fill in all the fields.");
+      return;
+    }
+    console.log("validated");
     //GET ALL INPUTS
     const inputs = view.getInput();
 
@@ -73,8 +83,48 @@ const subsCompute = function () {
 };
 
 //
-//
+//CLEAR
 
+const subsClearBtn = function () {
+  const clear = document.getElementById("btn-clear");
+
+  clear.addEventListener("click", function (e) {
+    e.preventDefault();
+    console.log("clear button clicked");
+    view.clearInputs();
+  });
+};
+
+const subsCloseBtn = function () {
+  const close = document.querySelectorAll(".close-modal");
+
+  close.forEach((el) => {
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      view.closeModal("message-box");
+    });
+  });
+};
+
+const subsPopulateBtn = function () {
+  const popu = document.getElementById("populate-btn");
+
+  popu.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    view.populateInputs();
+  });
+};
+
+const subsClearOutputBtn = function () {
+  const clear = document.getElementById("clear-btn");
+
+  clear.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    view.clearOutputs();
+  });
+};
 //
 //
 
@@ -95,4 +145,8 @@ const subsCompute = function () {
   subsInputNumbers();
   subsDropDowns();
   subsCompute();
+  subsClearBtn();
+  subsCloseBtn();
+  subsPopulateBtn();
+  subsClearOutputBtn();
 })();

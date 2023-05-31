@@ -19,7 +19,11 @@
     background-color: $color-stormcloud;
     border-radius: 3px;
   }
-  &__item-list {
+
+  &__container {
+    position: relative;
+  }
+  & &__item-list {
     list-style: none;
   }
 
@@ -33,5 +37,24 @@
     align-items: start;
     justify-content: space-between;
     margin-bottom: 2rem;
+  }
+
+  &__clear-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateY(-115%);
+    padding: 0.5rem 0.5rem;
+    color: $font-white;
+    background-color: $color-stormcloud;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+
+    transition: all 300ms;
+    &:hover {
+      transform: translateY(-120%) scale(1.05);
+    }
   }
 }
